@@ -1,3 +1,5 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
@@ -14,16 +16,16 @@ class RoomsView(View):
         return render(request, "chat/rooms.html", context)
 
 
-class RoomView(View):
+class RoomView(LoginRequiredMixin, View):
     def get(self, request, slug):
         room = Room.objects.get(slug=slug)
         messages = Message.objects.filter(room=room)
         context = {
             "room": room,
-            "messages": messages
+            "mesages": messages
         }
         return render(request, "chat/room.html", context)
-
+UserCreationForm
 
 class HomeView(TemplateView):
     template_name = "home.html"

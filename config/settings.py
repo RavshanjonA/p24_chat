@@ -24,11 +24,12 @@ SECRET_KEY = 'django-insecure-7xr&6p58%xg0q*du1fym7$c133rv7zt+$pcmx!&9!3ga6l!5%y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*', ]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'chat',
     'channels',
     'django.contrib.admin',
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+LOGIN_URL = '/admin/'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -105,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "account.Account"
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -120,6 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

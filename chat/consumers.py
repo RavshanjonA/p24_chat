@@ -2,9 +2,10 @@ import json
 
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.contrib.auth.models import User
+
 from pyasn1_modules.rfc2985 import dateOfBirth
 
+from account.models import Account
 from chat.models import Room, Message
 
 
@@ -48,8 +49,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def save_message_to_db(self, username, room, message):
         if username:
-            user = User.objects.get(username=username)
+            user = Account.objects.get(username=username)
         else:
-            user = User.objects.get(username="anonim")
+            user, created = Account.objects.get_or_create(username="anonim")
+            if created:
+                user.set_password("12345")
+                user.save()
         room = Room.objects.get(slug=room)
         Message.objects.create(user=user, room=room, body=message)
